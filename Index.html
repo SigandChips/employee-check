@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>QR Employee Check</title>
+</head>
+<body style="font-family:sans-serif; text-align:center; margin-top:100px;">
+
+<div id="output">Loading...</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+
+  fetch("https://https://docs.google.com/spreadsheets/d/1SqxH_xIJS_ozZyuBKw604FfP-mzemqumVJG6ByIvBPo/export?format=csv")
+    .then(res => res.text())
+    .then(text => {
+      const rows = text.split('\n').slice(1); // skip headers
+      let found = false;
+
+      for (let row of rows) {
+        const [rowId, name, status] = row.split(',');
+
+        if (rowId.trim() === id) {
+          found = true;
+          if (status.trim() === "active") {
+            document.getElementById('output').innerHTML = `
+              <div style="font-size:120px;">✅</div>
+              <h2>${name} is ACTIVE</h2>
+            `;
+          } else {
+            document.getElementById('output').innerHTML = `
+              <div style="font-size:120px;">❌</div>
+              <h2>${name} is NOT ACTIVE</h2>
+            `;
+          }
+          break;
+        }
+      }
+
+      if (!found) {
+        document.getElementById('output').innerHTML = `
+          <div style="font-size:120px;">❌</div>
+          <h2>Employee not found</h2>
+        `;
+      }
+    });
+</script>
+
+</body>
+</html>
