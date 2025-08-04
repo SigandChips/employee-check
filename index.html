@@ -12,7 +12,7 @@
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
 
-  fetch("https://https://docs.google.com/spreadsheets/d/1SqxH_xIJS_ozZyuBKw604FfP-mzemqumVJG6ByIvBPo/export?format=csv")
+  fetch("https://docs.google.com/spreadsheets/d/1SqxH_xIJS_ozZyuBKw604FfP-mzemqumVJG6ByIvBPo/export?format=csv")
     .then(res => res.text())
     .then(text => {
       const rows = text.split('\n').slice(1); // skip headers
@@ -48,4 +48,5 @@
 </script>
 
 </body>
+
 </html>
